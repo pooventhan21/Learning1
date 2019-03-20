@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<project name="Simple Project analyzed with the SonarQube Scanner for Ant" default="all" basedir="." xmlns:sonar="antlib:org.sonar.ant">
+
+	<!-- ========= Define the main properties of this project ========= -->
+	<property name="src.dir" value="src" />
+	<property name="build.dir" value="target" />
+	<property name="classes.dir" value="${build.dir}/classes" />
+	
+	<property name="sonar.host.url" value="http://localhost:9000"/>
+		<property name="sonar.projectKey" value="SonarLearningAnt"/>
+		<property name="sonar.projectName" value="SonarLearningAnt"/>
+		<property name="sonar.projectVersion" value="1.0"/>
+		<property name="sonar.sources" value="src/com/learning/sonar/ant"/>
+		<property name="sonar.binaries" value="target" />
+		<property name="sonar.sourceEncoding" value="UTF-8" />
+	
+	
+	<target name="clean">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="init">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${classes.dir}" />
+	</target>
+
+	<target name="compile" depends="init">
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" fork="true" debug="true" includeAntRuntime="false" />
+	</target>
+
+	<!-- ========= Define SonarQube Scanner for Ant Target ========= -->
+	<target name="sonar" depends="compile">
+		<taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
+			<!-- Update the following line, or put the "sonar-ant-task-*.jar" file in your "$HOME/.ant/lib" folder -->
+			<classpath path="C:/Training/SonarQubeTraining/Project/SonarLearningAnt/sonarqube-ant-task-2.5.jar" />
+		</taskdef>
+		
+		<!-- Execute SonarQube Scanner for Ant Analysis -->
+		<sonar:sonar />
+	</target>
+
+	<!-- ========= The main target "all" ========= -->
+	<target name="all" depends="clean,compile,sonar" />
+
+</project>
